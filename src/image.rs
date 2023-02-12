@@ -604,7 +604,11 @@ where
         )));
     }
 
-    let mut buf = vec![num_traits::Zero::zero(); total_bytes.unwrap() / std::mem::size_of::<T>()];
+    println!("total_bytes: {}", total_bytes.unwrap());
+    println!("size_of::<T>: {}", std::mem::size_of::<T>());
+    // Get size by multiplying the height and width of the image by 4 for RGBA
+
+    let mut buf = vec![num_traits::Zero::zero(); ];
     decoder.read_image(bytemuck::cast_slice_mut(buf.as_mut_slice()))?;
     Ok(buf)
 }

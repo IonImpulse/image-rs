@@ -309,6 +309,8 @@ impl ExtendedImage {
     }
 
     pub(crate) fn fill_buf(&self, buf: &mut [u8]) {
+        println!("buf size: {}", buf.len());
+
         match &self.image {
             // will always have at least one frame
             ExtendedImageData::Animation { frames, .. } => &frames[0].image,
@@ -456,6 +458,12 @@ impl WebPStatic {
     pub(crate) fn fill_buf(&self, buf: &mut [u8]) {
         match self {
             WebPStatic::LossyWithAlpha(image) => {
+                // Print details about the image
+                println!("Image dimensions: {:?}", image.dimensions());
+                println!("Image buffer size: {}", image.len());
+                // Assert that the image buffer is the same size as the buffer we are filling
+                assert_eq!(image.len(), buf.len());
+
                 buf.copy_from_slice(image);
             }
             WebPStatic::LossyWithoutAlpha(image) => {
